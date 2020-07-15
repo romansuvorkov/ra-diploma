@@ -1,7 +1,7 @@
 import {FETCH_TOPSALES_REQUEST, FETCH_TOPSALES_SUCCESS, FETCH_TOPSALES_FAILURE} from '../actions/actionTypes'
 
 const initialState = {
-    items: [],
+  topSales: [],
   loading: false,
   error: null,
 };
@@ -16,9 +16,8 @@ export default function topSalesListReducer(state = initialState, action) {
       return { ...state, loading: false, error};
     }
     case FETCH_TOPSALES_SUCCESS: {
-      const { items } = action.payload;
-      console.log(items);
-      return { ...state, items, loading: false, error: null};
+      const { topSales } = action.payload;
+      return { ...state, topSales, loading: false, error: null};
     }
     default:
       return state;

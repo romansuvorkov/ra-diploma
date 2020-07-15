@@ -2,6 +2,7 @@ import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchItems} from '../actions/actionCreators';
 import CatalogSearch from "./CatalogSearch";
+import CategoryList from "./CategoryList";
 
 function Catalog() {
     const { items, loading, error } = useSelector(state => state.itemList);
@@ -26,23 +27,7 @@ function Catalog() {
 
                     <CatalogSearch />
 
-                    <ul className="catalog-categories nav justify-content-center">
-                        <li className="nav-item">
-                            <a className="nav-link active" href="#">Все</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">Женская обувь</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">Мужская обувь</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">Обувь унисекс</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">Детская обувь</a>
-                        </li>
-                    </ul>
+                    <CategoryList />
 
                     <div className="row">
                     {items.map(o => (

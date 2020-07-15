@@ -4,7 +4,7 @@ import {fetchTopSales} from '../actions/actionCreators';
 
 function TopSales() {
 
-  const { items, loading, error } = useSelector(state => state.topSalesList);
+  const { topSales, loading, error } = useSelector(state => state.topSalesList);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -28,7 +28,7 @@ function TopSales() {
     <>
                 <section className="top-sales">
                   <h2 className="text-center">Хиты продаж!</h2>
-                  {items.map(o => (
+                  {topSales.map(o => (
                         <div key={o.id} className="col-4">
                             <div className="card catalog-item-card">
                                 <img src={o.images[0]} className="card-img-top img-fluid" alt={o.title} />

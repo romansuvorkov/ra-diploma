@@ -3,7 +3,10 @@ import { FETCH_ITEMS_REQUEST,
          FETCH_ITEMS_FAILURE,
          FETCH_TOPSALES_REQUEST,
          FETCH_TOPSALES_SUCCESS,
-         FETCH_TOPSALES_FAILURE
+         FETCH_TOPSALES_FAILURE,
+         FETCH_CATEGORY_REQUEST, 
+         FETCH_CATEGORY_SUCCESS, 
+         FETCH_CATEGORY_FAILURE
 } from './actionTypes';
 
 export const fetchItemsRequest = () => ({
@@ -33,8 +36,8 @@ export const fetchTopSalesRequest = () => ({
   type: FETCH_TOPSALES_REQUEST
 });
 
-export const fetchTopSalesSuccess = (items) => ({
-  type: FETCH_TOPSALES_SUCCESS, payload: { items }
+export const fetchTopSalesSuccess = (topSales) => ({
+  type: FETCH_TOPSALES_SUCCESS, payload: { topSales }
 });
 
 export const fetchTopSalesFailure = (error) => ({
@@ -49,6 +52,30 @@ export const fetchTopSales = () => async (dispatch) => {
       dispatch(fetchTopSalesSuccess(topSales));
   } catch (error) {
       dispatch(fetchTopSalesFailure(error.message));                
+  }
+
+}
+
+export const fetchCategoriesRequest = () => ({
+  type: FETCH_CATEGORY_REQUEST
+});
+
+export const fetchCategoriesSuccess = (categories) => ({
+  type: FETCH_CATEGORY_SUCCESS, payload: { categories }
+});
+
+export const fetchCategoriesFailure = (categoryError) => ({
+  type: FETCH_CATEGORY_FAILURE, payload: { categoryError}
+});
+
+export const fetchCategories = () => async (dispatch) => {
+  dispatch(fetchCategoriesRequest());
+  try {
+      const response = await fetch(`${process.env.REACT_APP_DATA_URL}/categories`);
+      const categories = await response.json();
+      dispatch(fetchCategoriesSuccess(categories));
+  } catch (error) {
+      dispatch(fetchCategoriesFailure(error.message));                
   }
 
 }
