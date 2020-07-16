@@ -6,8 +6,9 @@ import { FETCH_ITEMS_REQUEST,
          FETCH_TOPSALES_FAILURE,
          FETCH_CATEGORY_REQUEST, 
          FETCH_CATEGORY_SUCCESS, 
-         FETCH_CATEGORY_FAILURE
-} from './actionTypes';
+         FETCH_CATEGORY_FAILURE,
+         SET_ACTIVE_CATEGORY
+        } from './actionTypes';
 
 export const fetchItemsRequest = () => ({
   type: FETCH_ITEMS_REQUEST
@@ -21,10 +22,15 @@ export const fetchItemsFailure = (error) => ({
   type: FETCH_ITEMS_FAILURE, payload: { error}
 });
 
-export const fetchItems = () => async (dispatch) => {
+// export const clearItems = (error) => ({
+//   type: FETCH_ITEMS_FAILURE, payload: { error}
+// });
+
+export const fetchItems = (address) => async (dispatch) => {
   dispatch(fetchItemsRequest());
   try {
-      const response = await fetch(`${process.env.REACT_APP_DATA_URL}/items`);
+    console.log(address);
+      const response = await fetch(`${process.env.REACT_APP_DATA_URL}${address}`);
       const items = await response.json();
       dispatch(fetchItemsSuccess(items));
   } catch (error) {
@@ -66,6 +72,10 @@ export const fetchCategoriesSuccess = (categories) => ({
 
 export const fetchCategoriesFailure = (categoryError) => ({
   type: FETCH_CATEGORY_FAILURE, payload: { categoryError}
+});
+
+export const setActiveCategory = (activeCategoryID) => ({
+  type: SET_ACTIVE_CATEGORY, payload: { activeCategoryID }
 });
 
 export const fetchCategories = () => async (dispatch) => {

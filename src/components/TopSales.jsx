@@ -28,18 +28,21 @@ function TopSales() {
     <>
                 <section className="top-sales">
                   <h2 className="text-center">Хиты продаж!</h2>
-                  {topSales.map(o => (
-                        <div key={o.id} className="col-4">
-                            <div className="card catalog-item-card">
-                                <img src={o.images[0]} className="card-img-top img-fluid" alt={o.title} />
-                                <div className="card-body">
-                                    <p className="card-text">{o.title}</p>
-                                    <p className="card-text">{o.price}</p>
-                                    <a href="/products/1.html" className="btn btn-outline-primary">Заказать</a>
-                                </div>
-                            </div>
-                        </div>
-                  ))}
+                  <div className="top-sales-wrapper">
+                    {topSales.map(o => (
+                          <div key={o.id} className="col-4">
+                              <div className="card catalog-item-card">
+                                  <img src={o.images[0]} className="card-img-top img-fluid" alt={o.title} />
+                                  <div className="card-body">
+                                      <p className="card-text">{o.title}</p>
+                                      <p className="card-text">{o.price}</p>
+                                      <a href="/products/1.html" className="btn btn-outline-primary">Заказать</a>
+                                  </div>
+                              </div>
+                          </div>
+                    ))}  
+                  </div>
+                  
                 </section>
     </>
   );

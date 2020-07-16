@@ -168,6 +168,11 @@ section {
   min-height: 300px;
 }
 
+.top-sales-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 /* Catalog */
 .catalog {
   min-height: 600px;
@@ -179,6 +184,18 @@ section {
 }
 .catalog-item-card {
   margin-bottom: 1em;
+  width:200px;
+  height: 200px;
+}
+
+.card-img-top {
+  width: 100px;
+  height: 100px;
+}
+
+.catalog-item-wrapper {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 /* Footer */

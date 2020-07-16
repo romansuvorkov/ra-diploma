@@ -5,11 +5,11 @@ import CatalogSearch from "./CatalogSearch";
 import CategoryList from "./CategoryList";
 
 function Catalog() {
-    const { items, loading, error } = useSelector(state => state.itemList);
+    const { items, loading, error, itemsLength } = useSelector(state => state.itemList);
     const dispatch = useDispatch();
 
     React.useEffect(() => {
-        dispatch(fetchItems());
+        dispatch(fetchItems('/items'));
     }, [dispatch]);
 
     if (loading) {
@@ -29,7 +29,7 @@ function Catalog() {
 
                     <CategoryList />
 
-                    <div className="row">
+                    <div className="catalog-item-wrapper">
                     {items.map(o => (
                         <div key={o.id} className="col-4">
                             <div className="card catalog-item-card">
@@ -37,7 +37,7 @@ function Catalog() {
                                 <div className="card-body">
                                     <p className="card-text">{o.title}</p>
                                     <p className="card-text">{o.price}</p>
-                                    <a href="/products/1.html" className="btn btn-outline-primary">Заказать</a>
+                                    <a href="#" className="btn btn-outline-primary">Заказать</a>
                                 </div>
                             </div>
                         </div>
@@ -45,7 +45,9 @@ function Catalog() {
                        
                     </div>
                     <div className="text-center">
-                        <button className="btn btn-outline-primary">Загрузить ещё</button>
+                        <button className="btn btn-outline-primary" onClick={(event) => {
+                            event.preventDefault();
+                            dispatch(fetchItems(`/items?offset=${itemsLength}`))}}>Загрузить ещё</button>
                     </div>
                 </section>
     </>

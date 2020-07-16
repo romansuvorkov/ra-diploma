@@ -1,9 +1,10 @@
-import {FETCH_CATEGORY_REQUEST, FETCH_CATEGORY_SUCCESS, FETCH_CATEGORY_FAILURE} from '../actions/actionTypes';
+import {FETCH_CATEGORY_REQUEST, FETCH_CATEGORY_SUCCESS, FETCH_CATEGORY_FAILURE, SET_ACTIVE_CATEGORY} from '../actions/actionTypes';
 
 const initialState = {
-  categories: [],
+  categories: [{id: 999, title: "Все"}],
   categoryLoading: false,
   categoryError: null,
+  activeCategoryID: 999
 };
 
 export default function categoryListReducer(state = initialState, action) {
@@ -17,8 +18,11 @@ export default function categoryListReducer(state = initialState, action) {
     }
     case FETCH_CATEGORY_SUCCESS: {
       const { categories } = action.payload;
-      {categories.push({id: 999, title: "Все"})}
-      return { ...state, categories, categoryLoading: false, categoryError: null};
+      return { ...state, categories: [{id: 999, title: "Все"}, ...categories], categoryLoading: false, categoryError: null};
+    }
+    case SET_ACTIVE_CATEGORY: {
+      const { activeCategoryID } = action.payload;
+      return { ...state, activeCategoryID: activeCategoryID};
     }
     default:
       return state;

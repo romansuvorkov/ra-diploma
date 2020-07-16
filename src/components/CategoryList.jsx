@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchCategories} from '../actions/actionCreators';
+import {fetchCategories, setActiveCategory} from '../actions/actionCreators';
 
 
 function CategoryList() {
@@ -25,8 +25,11 @@ function CategoryList() {
     <>
         <ul className="catalog-categories nav justify-content-center">
         {categories.map(o => (
-                        <li className="nav-item">
-                            <a className="nav-link active" href="#">{o.title}</a>
+                        <li key={o.id}className="nav-item">
+                            <a className="nav-link active" href="#" onClick={(event) => {
+                                event.preventDefault();
+                                dispatch(setActiveCategory(o.id));
+                            }}>{o.title}</a>
                         </li>
         ))}
         </ul>

@@ -4,6 +4,7 @@ const initialState = {
   items: [],
   loading: false,
   error: null,
+  itemsLength: 0,
 };
 
 export default function itemListReducer(state = initialState, action) {
@@ -17,7 +18,7 @@ export default function itemListReducer(state = initialState, action) {
     }
     case FETCH_ITEMS_SUCCESS: {
       const { items } = action.payload;
-      return { ...state, items, loading: false, error: null};
+      return { ...state, items: [...state.items, ...items], loading: false, error: null, itemsLength: [...state.items, ...items].length};
     }
     default:
       return state;
