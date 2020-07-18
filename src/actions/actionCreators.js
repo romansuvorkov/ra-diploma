@@ -7,7 +7,8 @@ import { FETCH_ITEMS_REQUEST,
          FETCH_CATEGORY_REQUEST, 
          FETCH_CATEGORY_SUCCESS, 
          FETCH_CATEGORY_FAILURE,
-         SET_ACTIVE_CATEGORY
+         SET_ACTIVE_CATEGORY,
+         CLEAR_ITEMS
         } from './actionTypes';
 
 export const fetchItemsRequest = () => ({
@@ -22,13 +23,14 @@ export const fetchItemsFailure = (error) => ({
   type: FETCH_ITEMS_FAILURE, payload: { error}
 });
 
-// export const clearItems = (error) => ({
-//   type: FETCH_ITEMS_FAILURE, payload: { error}
-// });
+export const clearItems = () => ({
+  type: CLEAR_ITEMS
+});
 
 export const fetchItems = (address) => async (dispatch) => {
   dispatch(fetchItemsRequest());
   try {
+    console.log('fetchItems address');
     console.log(address);
       const response = await fetch(`${process.env.REACT_APP_DATA_URL}${address}`);
       const items = await response.json();

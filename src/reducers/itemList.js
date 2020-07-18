@@ -1,10 +1,11 @@
-import {FETCH_ITEMS_REQUEST, FETCH_ITEMS_SUCCESS, FETCH_ITEMS_FAILURE} from '../actions/actionTypes'
+import {FETCH_ITEMS_REQUEST, FETCH_ITEMS_SUCCESS, FETCH_ITEMS_FAILURE, CLEAR_ITEMS} from '../actions/actionTypes'
 
 const initialState = {
   items: [],
   loading: false,
   error: null,
   itemsLength: 0,
+  stopRequest: false
 };
 
 export default function itemListReducer(state = initialState, action) {
@@ -18,7 +19,15 @@ export default function itemListReducer(state = initialState, action) {
     }
     case FETCH_ITEMS_SUCCESS: {
       const { items } = action.payload;
-      return { ...state, items: [...state.items, ...items], loading: false, error: null, itemsLength: [...state.items, ...items].length};
+      if (items.length < 6) {
+        return { ...state, items: [...state.items, ...items], loading: false, error: null, itemsLength: [...state.items, ...items].length, stopRequest: true};  
+      } else {
+        return { ...state, items: [...state.items, ...items], loading: false, error: null, itemsLength: [...state.items, ...items].length, stopRequest: false};        
+      }
+
+    }
+    case CLEAR_ITEMS: {
+      return { ...state, items: [], itemsLength: 0};
     }
     default:
       return state;

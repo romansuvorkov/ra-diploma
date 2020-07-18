@@ -5,8 +5,9 @@ import CatalogSearch from "./CatalogSearch";
 import CategoryList from "./CategoryList";
 
 function Catalog() {
-    const { items, loading, error, itemsLength } = useSelector(state => state.itemList);
+    const { items, loading, error, itemsLength, stopRequest } = useSelector(state => state.itemList);
     const dispatch = useDispatch();
+    const { activeCategoryID } = useSelector(state => state.categoryList);
 
     React.useEffect(() => {
         dispatch(fetchItems('/items'));
@@ -44,11 +45,25 @@ function Catalog() {
                     ))}
                        
                     </div>
-                    <div className="text-center">
+                    {!stopRequest && <div className="text-center">
                         <button className="btn btn-outline-primary" onClick={(event) => {
                             event.preventDefault();
-                            dispatch(fetchItems(`/items?offset=${itemsLength}`))}}>Загрузить ещё</button>
-                    </div>
+                            let address = '/items';
+                            if (activeCategoryID != 999) {
+                                if (itemsLength >= 6) {
+                                    address = `/items?categoryId=${activeCategoryID}&offset=${itemsLength}`;
+                                } else {
+                                    address = `/items?categoryId=${activeCategoryID}`;
+                                }
+                            } else {
+                                if (itemsLength >= 6) {
+                                    address = `/items?offset=${itemsLength}`
+                                } else {
+                                    address = '/items';
+                                }
+                            }
+                            dispatch(fetchItems(address))}}>Загрузить ещё</button>
+                    </div>}
                 </section>
     </>
   );
