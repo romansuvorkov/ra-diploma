@@ -2,13 +2,15 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import itemListReducer from '../reducers/itemList';
 import topSalesListReducer from '../reducers/topSalesList';
 import categoryListReducer from '../reducers/categoryList';
+import searchReducer from '../reducers/searchReducer';
 import ReduxThunk from 'redux-thunk';
 
 
 const reducer = combineReducers({
   itemList: itemListReducer,
   topSalesList: topSalesListReducer,
-  categoryList: categoryListReducer
+  categoryList: categoryListReducer,
+  searchReducer: searchReducer
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

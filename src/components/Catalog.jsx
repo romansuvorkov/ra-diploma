@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchItems} from '../actions/actionCreators';
+import {fetchItems, fetchItemsSuccess} from '../actions/actionCreators';
 import CatalogSearch from "./CatalogSearch";
 import CategoryList from "./CategoryList";
 
@@ -12,6 +12,8 @@ function Catalog() {
     React.useEffect(() => {
         dispatch(fetchItems('/items'));
     }, [dispatch]);
+
+
 
     if (loading) {
         return <div>Loading...</div>

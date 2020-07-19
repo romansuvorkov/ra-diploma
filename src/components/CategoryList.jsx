@@ -7,25 +7,7 @@ import {fetchItems, clearItems} from '../actions/actionCreators';
 function CategoryList() {
 
     const { categories, categoryLoading, categoryError, activeCategoryID } = useSelector(state => state.categoryList);
-    const { itemsLength } = useSelector(state => state.itemList);
     const dispatch = useDispatch();
-
-    // if (activeCategoryID != 999) {
-    //     console.log('work change active != 999');
-    //     if (itemsLength >= 6) {
-    //         address = `/items?categoryId=${activeCategoryID}&offset=${itemsLength}`;
-    //     } else {
-    //         address = `/items?categoryId=${activeCategoryID}`;
-    //     }
-    // } else {
-    //     console.log('work change active = 999');
-    //     if (itemsLength >= 6) {
-    //         address = `/items?offset=${itemsLength}`
-    //     } else {
-    //         address = '/items';
-    //     }
-    // }
-
 
     React.useEffect(() => {
         dispatch(fetchCategories());

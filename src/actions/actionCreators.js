@@ -8,8 +8,14 @@ import { FETCH_ITEMS_REQUEST,
          FETCH_CATEGORY_SUCCESS, 
          FETCH_CATEGORY_FAILURE,
          SET_ACTIVE_CATEGORY,
-         CLEAR_ITEMS
+         CLEAR_ITEMS,
+         FETCH_SEARCH_REQUEST,
+         FETCH_SEARCH_SUCCESS,
+         FETCH_SEARCH_FAILURE,
+         SET_SEARCH_TEXT,
+         CLEAR_SEARCH_TEXT
         } from './actionTypes';
+
 
 export const fetchItemsRequest = () => ({
   type: FETCH_ITEMS_REQUEST
@@ -30,8 +36,8 @@ export const clearItems = () => ({
 export const fetchItems = (address) => async (dispatch) => {
   dispatch(fetchItemsRequest());
   try {
-    console.log('fetchItems address');
-    console.log(address);
+    // console.log('fetchItems address');
+    // console.log(address);
       const response = await fetch(`${process.env.REACT_APP_DATA_URL}${address}`);
       const items = await response.json();
       dispatch(fetchItemsSuccess(items));
@@ -89,5 +95,33 @@ export const fetchCategories = () => async (dispatch) => {
   } catch (error) {
       dispatch(fetchCategoriesFailure(error.message));                
   }
+}
 
+
+export const fetchSearchRequest = () => ({
+  type: FETCH_SEARCH_REQUEST
+});
+
+export const fetchSearchSuccess = (searchResponse) => ({
+  type: FETCH_SEARCH_SUCCESS, payload: { searchResponse }
+});
+
+export const fetchSearchFailure = (searchError) => ({
+  type: FETCH_SEARCH_FAILURE, payload: { searchError}
+});
+
+export const setSearchText = (searchText) => ({
+  type: SET_SEARCH_TEXT, payload: { searchText }
+});
+
+export const fetchSearch = (searchText) => async (dispatch) => {
+  dispatch(fetchSearchRequest());
+  try {
+      const response = await fetch(`${process.env.REACT_APP_DATA_URL}/items?q=${searchText}`);
+      const searchResponse = await response.json();
+      dispatch(fetchSearchSuccess(searchResponse));
+      dispatch(fetchItemsSuccess(searchResponse));
+  } catch (error) {
+      dispatch(fetchSearchFailure(error.message));                
+  }
 }
