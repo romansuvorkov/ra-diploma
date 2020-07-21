@@ -5,6 +5,8 @@ import MainPage from "./components/MainPage";
 import Catalog from "./components/Catalog";
 import About from "./components/About";
 import Contacts from "./components/Contacts";
+import Product from "./components/Product";
+import Cart from "./components/Cart";
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 import './App.css';
 import {useSelector, useDispatch} from 'react-redux';
@@ -19,8 +21,7 @@ function App() {
         console.log(value);
         setsearchFieldvalue(value);
     };
-
-    // const { searchText, searchLoading, searchError, searchResponse } = useSelector(state => state.searchReducer);
+    
     const dispatch = useDispatch();
 
   return (
@@ -82,7 +83,7 @@ function App() {
                     <Route path="/" exact>
                         <MainPage />
                     </Route>
-                    <Route path="/catalog">
+                    <Route exact path="/catalog">
                         <Catalog />
                     </Route>
                     <Route path="/about">
@@ -91,9 +92,12 @@ function App() {
                     <Route path="/contacts">
                         <Contacts />
                     </Route>
-
-                    {/* <TopSales />
-                    <Catalog /> */}
+                    <Route path="/catalog/:id">
+                        <Product />
+                    </Route>
+                    <Route path="/cart">
+                        <Cart />
+                    </Route>
                 </Switch>
 
             </div>

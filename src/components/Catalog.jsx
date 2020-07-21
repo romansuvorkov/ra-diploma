@@ -1,8 +1,9 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchItems, fetchItemsSuccess} from '../actions/actionCreators';
+import {fetchItems, fetchCatalogItem} from '../actions/actionCreators';
 import CatalogSearch from "./CatalogSearch";
 import CategoryList from "./CategoryList";
+import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 
 function Catalog() {
     const { items, loading, error, itemsLength, stopRequest } = useSelector(state => state.itemList);
@@ -32,7 +33,7 @@ function Catalog() {
 
                     <CategoryList />
 
-                    <div className="catalog-item-wrapper">
+                    <div className="row">
                     {items.map(o => (
                         <div key={o.id} className="col-4">
                             <div className="card catalog-item-card">
@@ -40,7 +41,11 @@ function Catalog() {
                                 <div className="card-body">
                                     <p className="card-text">{o.title}</p>
                                     <p className="card-text">{o.price}</p>
-                                    <a href="#" className="btn btn-outline-primary">Заказать</a>
+                                    <Link className="btn btn-outline-primary" to={`/catalog/${o.id}`} onClick={
+                                        () => {
+                                            dispatch(fetchCatalogItem(o.id));
+                                        }
+                                    }>Заказать</Link>
                                 </div>
                             </div>
                         </div>

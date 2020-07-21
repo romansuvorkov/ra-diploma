@@ -13,9 +13,10 @@ import { FETCH_ITEMS_REQUEST,
          FETCH_SEARCH_SUCCESS,
          FETCH_SEARCH_FAILURE,
          SET_SEARCH_TEXT,
-         CLEAR_SEARCH_TEXT
+         FETCH_CATALOG_ITEM_REQUEST,
+         FETCH_CATALOG_ITEM_SUCCESS,
+         FETCH_CATALOG_ITEM_FAILURE
         } from './actionTypes';
-
 
 export const fetchItemsRequest = () => ({
   type: FETCH_ITEMS_REQUEST
@@ -123,5 +124,29 @@ export const fetchSearch = (searchText) => async (dispatch) => {
       dispatch(fetchItemsSuccess(searchResponse));
   } catch (error) {
       dispatch(fetchSearchFailure(error.message));                
+  }
+}
+
+export const fetchCatalogItemRequest = () => ({
+  type: FETCH_CATALOG_ITEM_REQUEST
+});
+
+export const fetchCatalogItemSuccess = (itemInfo) => ({
+  type: FETCH_CATALOG_ITEM_SUCCESS, payload: { itemInfo }
+});
+
+export const fetchCatalogItemFailure = (itemInfoError) => ({
+  type: FETCH_CATALOG_ITEM_FAILURE, payload: { itemInfoError}
+});
+
+
+export const fetchCatalogItem = (id) => async (dispatch) => {
+  dispatch(fetchCatalogItemRequest());
+  try {
+      const response = await fetch(`${process.env.REACT_APP_DATA_URL}/items/${id}`);
+      const itemInfo = await response.json();
+      dispatch(fetchCatalogItemSuccess(itemInfo));
+  } catch (error) {
+      dispatch(fetchCatalogItemFailure(error.message));                
   }
 }

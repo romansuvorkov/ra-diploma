@@ -1,6 +1,7 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchTopSales} from '../actions/actionCreators';
+import {fetchTopSales, fetchCatalogItem} from '../actions/actionCreators';
+import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 
 function TopSales() {
 
@@ -28,7 +29,7 @@ function TopSales() {
     <>
                 <section className="top-sales">
                   <h2 className="text-center">Хиты продаж!</h2>
-                  <div className="top-sales-wrapper">
+                  <div className="row">
                     {topSales.map(o => (
                           <div key={o.id} className="col-4">
                               <div className="card catalog-item-card">
@@ -36,7 +37,11 @@ function TopSales() {
                                   <div className="card-body">
                                       <p className="card-text">{o.title}</p>
                                       <p className="card-text">{o.price}</p>
-                                      <a href="/products/1.html" className="btn btn-outline-primary">Заказать</a>
+                                      <Link className="btn btn-outline-primary" to={`/catalog/${o.id}`} onClick={
+                                        () => {
+                                            dispatch(fetchCatalogItem(o.id));
+                                        }
+                                      }>Заказать</Link>
                                   </div>
                               </div>
                           </div>
