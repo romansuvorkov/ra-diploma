@@ -3,7 +3,10 @@ import {FETCH_CATALOG_ITEM_REQUEST, FETCH_CATALOG_ITEM_SUCCESS, FETCH_CATALOG_IT
 const initialState = {
   itemInfo: [],
   itemInfoLoading: false,
-  itemInfoError: null
+  itemInfoError: null,
+
+  itemImages: [],
+  itemsizes: []
 };
 
 export default function itemListReducer(state = initialState, action) {
@@ -17,7 +20,8 @@ export default function itemListReducer(state = initialState, action) {
     }
     case FETCH_CATALOG_ITEM_SUCCESS: {
       const { itemInfo } = action.payload;
-      return { ...state, itemInfo: itemInfo, itemInfoLoading: false, itemInfoError: null };        
+      const { images, sizes } = itemInfo;
+      return { ...state, itemInfo: itemInfo, itemInfoLoading: false, itemInfoError: null, itemImages: images, itemsizes: sizes };        
     }
     default:
       return state;

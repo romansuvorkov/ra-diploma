@@ -37,11 +37,7 @@ function TopSales() {
                                   <div className="card-body">
                                       <p className="card-text">{o.title}</p>
                                       <p className="card-text">{o.price}</p>
-                                      <Link className="btn btn-outline-primary" to={`/catalog/${o.id}`} onClick={
-                                        () => {
-                                            dispatch(fetchCatalogItem(o.id));
-                                        }
-                                      }>Заказать</Link>
+                                      <Link className="btn btn-outline-primary" to={`/catalog/${o.id}`}>Заказать</Link>
                                   </div>
                               </div>
                           </div>

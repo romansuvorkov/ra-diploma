@@ -83,18 +83,19 @@ function App() {
                     <Route path="/" exact>
                         <MainPage />
                     </Route>
-                    <Route exact path="/catalog">
+                    {/* <Route exact path="/catalog">
                         <Catalog />
-                    </Route>
+                    </Route> */}
+                    <Route exact path="/catalog" component={Catalog} />
                     <Route path="/about">
                         <About />
                     </Route>
                     <Route path="/contacts">
                         <Contacts />
                     </Route>
-                    <Route path="/catalog/:id">
-                        <Product />
-                    </Route>
+                    <Route path="/catalog/:id" component={Product} />
+                        {/* <Product /> */}
+                    {/* </Route> */}
                     <Route path="/cart">
                         <Cart />
                     </Route>

@@ -1,18 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
+import { useEffect } from 'react';
+import {fetchCatalogItem, addItemToCart} from '../actions/actionCreators';
 
-function Product() {
-
-const { itemInfo, itemInfoLoading, itemInfoError } = useSelector(state => state.itemInfo);
+function Product({ match }) {
+const { itemInfo, itemInfoLoading, itemInfoError, itemsizes, itemImages } = useSelector(state => state.itemInfo);
 const dispatch = useDispatch();
+const [count, setCount] = useState(1);
+let selectedSize;
+
+React.useEffect(() => {
+    dispatch(fetchCatalogItem(match.params.id));
+}, [dispatch]);
 
 if (itemInfoLoading) {
     return <div>Loading...</div>
 }
 
+console.log(localStorage);
+
 if (itemInfoError) {
     return <div>Something went wrong. Try again</div>
+}
+
+const countHandler = (event) => {
+    const value = event.target.innerHTML;
+    let newCount;
+    if (value == '+' && count < 10) {
+        newCount = count + 1;
+        setCount(newCount);
+    } else if (value == '-' && count > 1) {
+        newCount = count - 1;
+        setCount(newCount);
+    }
+}
+
+const addToCart = () => {
+    const objForCart = {
+        id: itemInfo.id,
+        title: itemInfo.title,
+        size: selectedSize,
+        price: itemInfo.price,          
+        count: count
+    }
+    // console.log(objForCart);
+    dispatch(addItemToCart(objForCart));
 }
 
   return (
@@ -20,7 +53,7 @@ if (itemInfoError) {
                     <h2 className="text-center">{itemInfo.title}</h2>
                     <div className="row">
                         <div className="col-5">
-                            <img src={itemInfo.images[0]}
+                            <img src={itemImages[0]}
                                 className="img-fluid" alt={itemInfo.title} />
                         </div>
                         <div className="col-7">
@@ -54,18 +87,18 @@ if (itemInfoError) {
                             </table>
                             <div className="text-center">
                                 <p>Размеры в наличии: 
-                                    {itemInfo.sizes.map(o => (
-                                        o.avalible && <span className="catalog-item-size">{o.size}</span>
+                                    {itemsizes.map(o => (
+                                        o.avalible && <span className="catalog-item-size" key={o.size} onClick={() => selectedSize = o.size}>{o.size}</span>
                                     ))}
                                 </p>
                                 <p>Количество: <span className="btn-group btn-group-sm pl-2">
-                                        <button className="btn btn-secondary">-</button>
-                                        <span className="btn btn-outline-primary">1</span>
-                                        <button className="btn btn-secondary">+</button>
+                                        <button className="btn btn-secondary" onClick={countHandler}>-</button>
+                                        <span className="btn btn-outline-primary">{count}</span>
+                                        <button className="btn btn-secondary" onClick={countHandler}>+</button>
                                     </span>
                                 </p>
                             </div>
-                            <button className="btn btn-danger btn-block btn-lg">В корзину</button>
+                            <button className="btn btn-danger btn-block btn-lg" onClick={addToCart}>В корзину</button>
                         </div>
                     </div>
                 </section>

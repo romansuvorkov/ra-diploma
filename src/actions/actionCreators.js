@@ -15,7 +15,10 @@ import { FETCH_ITEMS_REQUEST,
          SET_SEARCH_TEXT,
          FETCH_CATALOG_ITEM_REQUEST,
          FETCH_CATALOG_ITEM_SUCCESS,
-         FETCH_CATALOG_ITEM_FAILURE
+         FETCH_CATALOG_ITEM_FAILURE,
+         CART_ADD_ITEM,
+         CART_REMOVE_ITEM, 
+         CART_CLEAR
         } from './actionTypes';
 
 export const fetchItemsRequest = () => ({
@@ -37,8 +40,6 @@ export const clearItems = () => ({
 export const fetchItems = (address) => async (dispatch) => {
   dispatch(fetchItemsRequest());
   try {
-    // console.log('fetchItems address');
-    // console.log(address);
       const response = await fetch(`${process.env.REACT_APP_DATA_URL}${address}`);
       const items = await response.json();
       dispatch(fetchItemsSuccess(items));
@@ -150,3 +151,15 @@ export const fetchCatalogItem = (id) => async (dispatch) => {
       dispatch(fetchCatalogItemFailure(error.message));                
   }
 }
+
+export const addItemToCart = (product) => ({
+  type: CART_ADD_ITEM, payload: { product}
+});
+
+export const removeItemFromCart = (removedID) => ({
+  type: CART_REMOVE_ITEM, payload: { removedID }
+});
+
+export const clearCart = () => ({
+  type: CART_CLEAR
+});

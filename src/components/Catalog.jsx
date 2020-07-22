@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchItems, fetchCatalogItem} from '../actions/actionCreators';
+import {fetchItems} from '../actions/actionCreators';
 import CatalogSearch from "./CatalogSearch";
 import CategoryList from "./CategoryList";
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
@@ -25,7 +25,6 @@ function Catalog() {
     }
 
   return (
-    <>
         <section className="catalog">
                     <h2 className="text-center">Каталог</h2>
 
@@ -41,11 +40,7 @@ function Catalog() {
                                 <div className="card-body">
                                     <p className="card-text">{o.title}</p>
                                     <p className="card-text">{o.price}</p>
-                                    <Link className="btn btn-outline-primary" to={`/catalog/${o.id}`} onClick={
-                                        () => {
-                                            dispatch(fetchCatalogItem(o.id));
-                                        }
-                                    }>Заказать</Link>
+                                    <Link className="btn btn-outline-primary" to={`/catalog/${o.id}`}>Заказать</Link>
                                 </div>
                             </div>
                         </div>
@@ -72,7 +67,6 @@ function Catalog() {
                             dispatch(fetchItems(address))}}>Загрузить ещё</button>
                     </div>}
                 </section>
-    </>
   );
 }
 

@@ -4,6 +4,7 @@ import topSalesListReducer from '../reducers/topSalesList';
 import categoryListReducer from '../reducers/categoryList';
 import searchReducer from '../reducers/searchReducer';
 import itemInfo from '../reducers/itemInfo';
+import cartReducer from '../reducers/cartList';
 import ReduxThunk from 'redux-thunk';
 
 
@@ -12,7 +13,8 @@ const reducer = combineReducers({
   topSalesList: topSalesListReducer,
   categoryList: categoryListReducer,
   searchReducer: searchReducer,
-  itemInfo: itemInfo
+  itemInfo: itemInfo,
+  cart: cartReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
