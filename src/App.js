@@ -12,13 +12,13 @@ import './App.css';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchSearch, setSearchText, clearItems} from './actions/actionCreators';
 
-function App() {
 
+function App() {
     const [searchFieldvalue, setsearchFieldvalue] = useState('');
+    const { cart } = useSelector(state => state.cart);
 
     const handleChange = (event) => {
         const {value} = event.target;
-        console.log(value);
         setsearchFieldvalue(value);
     };
     
@@ -52,25 +52,25 @@ function App() {
                         </ul>
                         <div>
                             <div className="header-controls-pics">
-                                <form data-id="search-form" className="header-controls-search-form form-inline invisible">
-                                    <input className="form-control" placeholder="Поиск" value={searchFieldvalue} onChange={handleChange}/>
-                                </form>
                             <div data-id="search-expander" className="header-controls-pic header-controls-search" onClick={() => {
                                 dispatch(setSearchText(searchFieldvalue));
                                 dispatch(fetchSearch(searchFieldvalue));
                                 setsearchFieldvalue('');
                                 dispatch(clearItems());
                             }}></div>
+                            {/* onClick={() => history.push('/cart')} */}
                                 <div className="header-controls-pic header-controls-cart">
-                                    <div className="header-controls-cart-full">1</div>
+                                    {cart.length > 0 && <div className="header-controls-cart-full">{cart.length}</div>}
                                     <div className="header-controls-cart-menu"></div>
+                                    <Link className="cart_link" to="/cart"></Link>
                                 </div>
                             </div>
-                            
+                            <form data-id="search-form" className="header-controls-search-form form-inline invisible">
+                                    <input className="form-control" placeholder="Поиск" value={searchFieldvalue} onChange={handleChange}/>
+                            </form>
                         </div>
                     </div>
                 </nav>
-
             </div>
         </div>
         </header>

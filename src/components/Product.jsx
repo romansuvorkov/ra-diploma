@@ -4,7 +4,7 @@ import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 import { useEffect } from 'react';
 import {fetchCatalogItem, addItemToCart} from '../actions/actionCreators';
 
-function Product({ match }) {
+function Product({ match, history }) {
 const { itemInfo, itemInfoLoading, itemInfoError, itemsizes, itemImages } = useSelector(state => state.itemInfo);
 const dispatch = useDispatch();
 const [count, setCount] = useState(1);
@@ -17,8 +17,6 @@ React.useEffect(() => {
 if (itemInfoLoading) {
     return <div>Loading...</div>
 }
-
-console.log(localStorage);
 
 if (itemInfoError) {
     return <div>Something went wrong. Try again</div>
@@ -44,8 +42,8 @@ const addToCart = () => {
         price: itemInfo.price,          
         count: count
     }
-    // console.log(objForCart);
     dispatch(addItemToCart(objForCart));
+    history.push('/cart');
 }
 
   return (
