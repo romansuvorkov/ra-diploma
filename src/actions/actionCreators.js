@@ -18,7 +18,10 @@ import { FETCH_ITEMS_REQUEST,
          FETCH_CATALOG_ITEM_FAILURE,
          CART_ADD_ITEM,
          CART_REMOVE_ITEM, 
-         CART_CLEAR
+         CART_CLEAR,
+         FETCH_ORDER_REQUEST,
+         FECTH_ORDER_SUCCESS, 
+         FECTH_ORDER_FAILURE
         } from './actionTypes';
 
 export const fetchItemsRequest = () => ({
@@ -163,3 +166,34 @@ export const removeItemFromCart = (removedID) => ({
 export const clearCart = () => ({
   type: CART_CLEAR
 });
+
+export const fetchOrderItemRequest = () => ({
+  type: FETCH_ORDER_REQUEST
+});
+
+export const fetchOrderSuccess = (items) => ({
+  type: FECTH_ORDER_SUCCESS, payload: { items }
+});
+
+export const fetchOrderFailure = (orderError) => ({
+  type: FECTH_ORDER_FAILURE, payload: { orderError }
+});
+
+export const uploadOrederToServer = (order) => async (dispatch) => {
+  dispatch(fetchOrderItemRequest());
+  try {
+    const response = await fetch(`${process.env.REACT_APP_DATA_URL}/order`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // body: JSON.stringify(order)
+      body: order
+    })
+    const serverResponse = await response.json();
+    console.log(serverResponse);
+    dispatch(fetchOrderSuccess(serverResponse));
+    } catch (error) {
+      dispatch(fetchOrderFailure(error.message));
+  }
+};
