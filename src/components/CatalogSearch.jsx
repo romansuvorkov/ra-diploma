@@ -10,7 +10,6 @@ function CatalogSearch() {
 
     const handleChange = (event) => {
         const {value} = event.target;
-        console.log(value);
         setsearchFieldvalue(value);
     };
 

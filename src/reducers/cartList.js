@@ -1,18 +1,15 @@
 import {CART_ADD_ITEM, CART_REMOVE_ITEM, CART_CLEAR} from '../actions/actionTypes';
 
 const initialState = {
-  cart: []
+  cart: [],
+  totalSum: 0
 };
 
 export default function cartReducer(state = initialState, action) {
   switch (action.type) {
     case CART_ADD_ITEM: {
       const { product } = action.payload;
-    //   console.log('product');
-    //   console.log(product);
       const itemAlreadyInCart = state.cart.find((item) => item.id === product.id && item.size === product.size);
-    //   console.log('itemAlreadyInCart');
-    //   console.log(itemAlreadyInCart);
       let newItem;
       if (!itemAlreadyInCart) {
         newItem = {
@@ -30,30 +27,38 @@ export default function cartReducer(state = initialState, action) {
           ...itemAlreadyInCart,
           count: itemAlreadyInCart.count + product.count,
           price: product.price,
-          total: (itemAlreadyInCart.count + product.count) * product.price
+          totalPrice: (itemAlreadyInCart.count + product.count) * product.price
         };
       }
-    //   console.log('newItem');
-    //   console.log(newItem);
       const newCart = state.cart.filter((item) => !(item.id === product.id && item.size === product.size));
-    //   console.log('newCart');
-    //   console.log(newCart);
-      localStorage.cart = JSON.stringify([...newCart, newItem]);
-      return { cart: [...newCart, newItem] };
+      const outputCart = [...newCart, newItem];
+      let newSum = 0;
+      for (let item of outputCart) {
+        newSum += item.totalPrice;
+      }
+      localStorage.cart = JSON.stringify(outputCart);
+      localStorage.totalSum = newSum;
+
+      return { ...state, cart: outputCart,  totalSum: newSum};
       }
     case CART_REMOVE_ITEM: {
       const { removedID } = action.payload;
       const filteredCart = state.cart.filter((o) => o.id !== removedID);
       localStorage.cart = JSON.stringify(filteredCart);
-      return { ...state, cart: filteredCart };
+      let newSum = 0;
+      for (let item of filteredCart) {
+        newSum += item.totalPrice;
+      }
+      localStorage.totalSum = newSum;
+      return { ...state, cart: filteredCart,  totalSum: newSum};
     }
     case CART_CLEAR: {
       localStorage.clear();
-      return { cart: [] };
+      return { cart: [], totalSum: 0 };
     }
     default:
       if (localStorage.cart) {
-        return {  cart: JSON.parse(localStorage.cart) }
+        return {  cart: JSON.parse(localStorage.cart), totalSum: parseInt(localStorage.totalSum, 10) }
       }
       return state;
   }

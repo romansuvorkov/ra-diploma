@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
-import { useEffect } from 'react';
 import {fetchCatalogItem, addItemToCart} from '../actions/actionCreators';
 
 function Product({ match, history }) {
@@ -15,11 +13,21 @@ React.useEffect(() => {
 }, [dispatch]);
 
 if (itemInfoLoading) {
-    return <div>Loading...</div>
+    return <div className="preloader">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
 }
 
 if (itemInfoError) {
-    return <div>Something went wrong. Try again</div>
+    return <div>
+                    <p>
+                        Произошла ошибка во время загрузки товара. Повторите загрузку
+                    </p>
+                    <button className="btn btn-outline-primary" onClick={() => {dispatch(fetchCatalogItem(match.params.id))}}>Try again</button>
+            </div>
 }
 
 const countHandler = (event) => {
@@ -51,8 +59,7 @@ const addToCart = () => {
                     <h2 className="text-center">{itemInfo.title}</h2>
                     <div className="row">
                         <div className="col-5">
-                            <img src={itemImages[0]}
-                                className="img-fluid" alt={itemInfo.title} />
+                            <img src={itemImages[0]} className="img-fluid" alt={itemInfo.title} onError={(e) => {e.target.onerror = null; e.target.src = itemImages[1]}} />
                         </div>
                         <div className="col-7">
                             <table className="table table-bordered">

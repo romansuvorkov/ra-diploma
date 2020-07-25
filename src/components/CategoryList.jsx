@@ -23,7 +23,12 @@ function CategoryList() {
     }
 
     if (categoryError) {
-        return <div>Something went wrong. Try again</div>
+        return <div>
+            <p>
+            Произошла ошибка во время загрузки категорий. Повторите загрузку
+            </p>
+            <button className="btn btn-outline-primary" onClick={() => {dispatch(fetchCategories())}}>Try again</button>
+        </div>
     }
 
 

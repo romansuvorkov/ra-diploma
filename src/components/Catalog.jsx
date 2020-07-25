@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {fetchItems} from '../actions/actionCreators';
 import CatalogSearch from "./CatalogSearch";
 import CategoryList from "./CategoryList";
-import {BrowserRouter as Link} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 
 function Catalog(props) {
     const { items, loading, error, itemsLength, stopRequest } = useSelector(state => state.itemList);
@@ -17,8 +17,32 @@ function Catalog(props) {
         // dispatch(fetchItems('/items'));
     }, [dispatch]);
 
+    const handleClick = (event) => {
+        event.preventDefault();
+        let address = '/items';
+        if (activeCategoryID != 999) {
+            if (itemsLength >= 6) {
+                address = `/items?categoryId=${activeCategoryID}&offset=${itemsLength}`;
+            } else {
+                address = `/items?categoryId=${activeCategoryID}`;
+            }
+        } else {
+            if (itemsLength >= 6) {
+                address = `/items?offset=${itemsLength}`
+            } else {
+                address = '/items';
+            }
+        }
+        dispatch(fetchItems(address));
+    }
+
     if (error) {
-        return <div>Something went wrong. Try again</div>
+        return <div>
+                    <p>
+                        Произошла ошибка во время загрузки каталога. Повторите загрузку
+                    </p>
+                    <button className="btn btn-outline-primary" onClick={handleClick}>Try again</button>
+                </div>
     }
 
   return (
@@ -50,7 +74,8 @@ function Catalog(props) {
                                 </div>}   
                     </div>
                     {!stopRequest && <div className="text-center">
-                        <button className="btn btn-outline-primary" onClick={(event) => {
+                        <button className="btn btn-outline-primary" onClick={handleClick}>Загрузить ещё</button>
+                        {/* <button className="btn btn-outline-primary" onClick={(event) => {
                             event.preventDefault();
                             let address = '/items';
                             if (activeCategoryID != 999) {
@@ -66,7 +91,7 @@ function Catalog(props) {
                                     address = '/items';
                                 }
                             }
-                            dispatch(fetchItems(address))}}>Загрузить ещё</button>
+                            dispatch(fetchItems(address))}}>Загрузить ещё</button> */}
                     </div>}
                 </section>
   );

@@ -189,6 +189,10 @@ export const uploadOrederToServer = (order) => async (dispatch) => {
       },
       body: JSON.stringify(order)
     })
+    console.log(serverResponse.status);
+    if (serverResponse.status === 204) {
+      dispatch(clearCart());
+    }
     dispatch(fetchOrderSuccess(serverResponse));
     } catch (error) {
       dispatch(fetchOrderFailure(error.message));

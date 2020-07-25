@@ -6,21 +6,8 @@ import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 
 function Cart() {
 
-    const { cart } = useSelector(state => state.cart);
+    const { cart, totalSum } = useSelector(state => state.cart);
     const dispatch = useDispatch();
-    const [ totalPrice, setTotalPrice ] = useState(0);
-
-    let priceSum = 0;
-
-    React.useEffect(() => {
-        for (let item of cart) {
-            priceSum += item.totalPrice;
-            setTotalPrice(priceSum);
-        }
-    }, [setTotalPrice]);
-
-
-
 
     return (
         <>
@@ -49,8 +36,6 @@ function Cart() {
                                 <td>{o.totalPrice}</td>
                                 <td><button className="btn btn-outline-danger btn-sm" onClick={() => {
                                     dispatch(removeItemFromCart(o.id));
-                                    const newSum = totalPrice - o.totalPrice;
-                                    setTotalPrice(newSum);
                                 }}>Удалить</button></td>
                             </tr>
                         ))}
@@ -60,7 +45,7 @@ function Cart() {
                         </tr>
                         <tr>
                             <td colSpan="5" className="text-right">Общая стоимость</td>
-                            <td>{totalPrice} руб.</td>
+                            <td>{totalSum} руб.</td>
                         </tr>
                     </tbody>
                 </table>
