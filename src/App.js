@@ -16,7 +16,7 @@ import {fetchSearch, setSearchText, clearItems} from './actions/actionCreators';
 function App() {
     const [searchFieldvalue, setsearchFieldvalue] = useState('');
     const { cart } = useSelector(state => state.cart);
-
+    const [searchWidgetVisability, setSearchWidgetVisability] = useState(false);
     const handleChange = (event) => {
         const {value} = event.target;
         setsearchFieldvalue(value);
@@ -53,21 +53,28 @@ function App() {
                         <div>
                             <div className="header-controls-pics">
                             <div data-id="search-expander" className="header-controls-pic header-controls-search" onClick={() => {
+                                if (searchFieldvalue === '') {
+                                    searchWidgetVisability ? setSearchWidgetVisability(false) : setSearchWidgetVisability(true);
+                                }
                                 dispatch(setSearchText(searchFieldvalue));
                                 dispatch(fetchSearch(searchFieldvalue));
                                 setsearchFieldvalue('');
                                 dispatch(clearItems());
                             }}></div>
-                            {/* onClick={() => history.push('/cart')} */}
                                 <div className="header-controls-pic header-controls-cart">
                                     {cart.length > 0 && <div className="header-controls-cart-full">{cart.length}</div>}
                                     <div className="header-controls-cart-menu"></div>
                                     <Link className="cart_link" to="/cart"></Link>
                                 </div>
                             </div>
-                            <form data-id="search-form" className="header-controls-search-form form-inline invisible">
+                            {searchWidgetVisability && <form data-id="search-form" className="header-controls-search-form form-inline">
                                     <input className="form-control" placeholder="Поиск" value={searchFieldvalue} onChange={handleChange}/>
                             </form>
+                            ||
+                            !searchWidgetVisability && <form data-id="search-form" className="header-controls-search-form form-inline invisible">
+                                    <input className="form-control" placeholder="Поиск" value={searchFieldvalue} onChange={handleChange}/>
+                            </form>
+                            }
                         </div>
                     </div>
                 </nav>
@@ -83,10 +90,10 @@ function App() {
                     <Route path="/" exact>
                         <MainPage />
                     </Route>
-                    {/* <Route exact path="/catalog">
-                        <Catalog />
-                    </Route> */}
-                    <Route exact path="/catalog" component={Catalog} />
+                    <Route exact path="/catalog">
+                        <Catalog catalogPage={true}/>
+                    </Route>
+                    {/* <Route exact path="/catalog" component={Catalog} /> */}
                     <Route path="/about">
                         <About />
                     </Route>

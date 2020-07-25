@@ -6,7 +6,7 @@ function MainPage() {
   return (
       <>
         <TopSales />
-        <Catalog />
+        <Catalog catalogPage={false}/>
     </>
   );
 }

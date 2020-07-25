@@ -3,22 +3,19 @@ import {useSelector, useDispatch} from 'react-redux';
 import {fetchItems} from '../actions/actionCreators';
 import CatalogSearch from "./CatalogSearch";
 import CategoryList from "./CategoryList";
-import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
+import {BrowserRouter as Link} from 'react-router-dom';
 
-function Catalog() {
+function Catalog(props) {
     const { items, loading, error, itemsLength, stopRequest } = useSelector(state => state.itemList);
     const dispatch = useDispatch();
     const { activeCategoryID } = useSelector(state => state.categoryList);
 
     React.useEffect(() => {
-        dispatch(fetchItems('/items'));
+        if(items.length === 0) {
+            dispatch(fetchItems('/items'));           
+        }
+        // dispatch(fetchItems('/items'));
     }, [dispatch]);
-
-
-
-    if (loading) {
-        return <div>Loading...</div>
-    }
 
     if (error) {
         return <div>Something went wrong. Try again</div>
@@ -28,7 +25,7 @@ function Catalog() {
         <section className="catalog">
                     <h2 className="text-center">Каталог</h2>
 
-                    <CatalogSearch />
+                    {props.catalogPage && <CatalogSearch />}
 
                     <CategoryList />
 
@@ -36,7 +33,7 @@ function Catalog() {
                     {items.map(o => (
                         <div key={o.id} className="col-4">
                             <div className="card catalog-item-card">
-                                <img src={o.images[0]} className="card-img-top img-fluid" alt={o.title} />
+                                <img src={o.images[0]} className="card-img-top img-fluid" alt={o.title} onError={(e) => {e.target.onerror = null; e.target.src = o.images[1]}}/>
                                 <div className="card-body">
                                     <p className="card-text">{o.title}</p>
                                     <p className="card-text">{o.price}</p>
@@ -45,7 +42,12 @@ function Catalog() {
                             </div>
                         </div>
                     ))}
-                       
+                    {loading && <div className="preloader">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>}   
                     </div>
                     {!stopRequest && <div className="text-center">
                         <button className="btn btn-outline-primary" onClick={(event) => {

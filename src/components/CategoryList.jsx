@@ -14,7 +14,12 @@ function CategoryList() {
     }, [dispatch]);
 
     if (categoryLoading) {
-        return <div>Loading...</div>
+        return <div className="preloader">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
     }
 
     if (categoryError) {

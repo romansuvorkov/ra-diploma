@@ -31,12 +31,10 @@ function OrderForm() {
         const newOrder = {
             owner: {
                 phone: phone,
-                address: address
+                address: address,
             },
             items: itemsForOrder
         }
-        console.log(newOrder);
-        console.log(JSON.stringify(newOrder));
 
         dispatch(uploadOrederToServer(newOrder));
     }

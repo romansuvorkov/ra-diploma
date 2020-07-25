@@ -171,8 +171,8 @@ export const fetchOrderItemRequest = () => ({
   type: FETCH_ORDER_REQUEST
 });
 
-export const fetchOrderSuccess = (items) => ({
-  type: FECTH_ORDER_SUCCESS, payload: { items }
+export const fetchOrderSuccess = (serverResponse) => ({
+  type: FECTH_ORDER_SUCCESS, payload: { serverResponse }
 });
 
 export const fetchOrderFailure = (orderError) => ({
@@ -182,16 +182,13 @@ export const fetchOrderFailure = (orderError) => ({
 export const uploadOrederToServer = (order) => async (dispatch) => {
   dispatch(fetchOrderItemRequest());
   try {
-    const response = await fetch(`${process.env.REACT_APP_DATA_URL}/order`, {
+    const serverResponse = await fetch(`${process.env.REACT_APP_DATA_URL}/order`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      // body: JSON.stringify(order)
-      body: order
+      body: JSON.stringify(order)
     })
-    const serverResponse = await response.json();
-    console.log(serverResponse);
     dispatch(fetchOrderSuccess(serverResponse));
     } catch (error) {
       dispatch(fetchOrderFailure(error.message));

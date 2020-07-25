@@ -8,7 +8,7 @@ function Product({ match, history }) {
 const { itemInfo, itemInfoLoading, itemInfoError, itemsizes, itemImages } = useSelector(state => state.itemInfo);
 const dispatch = useDispatch();
 const [count, setCount] = useState(1);
-let selectedSize;
+const [selectedSize, setSelectedSize] = useState(null);
 
 React.useEffect(() => {
     dispatch(fetchCatalogItem(match.params.id));
@@ -86,7 +86,13 @@ const addToCart = () => {
                             <div className="text-center">
                                 <p>Размеры в наличии: 
                                     {itemsizes.map(o => (
-                                        o.avalible && <span className="catalog-item-size" key={o.size} onClick={() => selectedSize = o.size}>{o.size}</span>
+                                        o.avalible && selectedSize === o.size && <span className="catalog-item-size selected" key={o.size} onClick={() => 
+                                            {setSelectedSize(o.size)}
+                                        }>{o.size}</span>
+                                        ||
+                                        o.avalible && selectedSize !== o.size && <span className="catalog-item-size" key={o.size} onClick={() => 
+                                            {setSelectedSize(o.size)}
+                                        }>{o.size}</span>
                                     ))}
                                 </p>
                                 <p>Количество: <span className="btn-group btn-group-sm pl-2">
@@ -96,7 +102,7 @@ const addToCart = () => {
                                     </span>
                                 </p>
                             </div>
-                            <button className="btn btn-danger btn-block btn-lg" onClick={addToCart}>В корзину</button>
+                            {selectedSize && <button className="btn btn-danger btn-block btn-lg" onClick={addToCart}>В корзину</button>}
                         </div>
                     </div>
                 </section>
