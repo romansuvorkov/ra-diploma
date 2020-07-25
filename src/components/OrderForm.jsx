@@ -6,20 +6,7 @@ function OrderForm() {
 
     const { cart } = useSelector(state => state.cart);
     const dispatch = useDispatch();
-    // {
-    //     "owner": {
-    //       "phone": "+7xxxxxxxxxxx",
-    //       "address": "Moscow City",
-    //     },
-    //     "items": [
-    //       {
-    //         "id": 1,
-    //         "price": 34000,
-    //         "count": 1
-    //       }
-    //     ]
-    //   }
-
+    const { orderLoading, orderError } = useSelector(state => state.cart);
 
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
@@ -41,24 +28,31 @@ function OrderForm() {
 
     const handleChange = (event) => {
         if (event.target.id === 'phone') {
-            // console.log(event.target.id);
             setPhone(event.target.value);
-            // console.log(phone);
         } else if (event.target.id === 'address') {
-            // console.log(event.target.id);
             setAddress(event.target.value);
-            // console.log(address);
         }else if (event.target.id === 'agreement') {
-            // console.log(event.target.id);
             setAgreement(event.target.checked);
-            // console.log(agreement);
         }
     }
 
-    // const { searchText } = useSelector(state => state.searchReducer);
-    // const dispatch = useDispatch();
+    if (orderLoading) {
+        return <div className="preloader">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+    }
 
-
+    if (orderError) {
+        return <div>
+            <p>
+            Произошла ошибка во время заказа. Повторите попытку
+            </p>
+            <button className="btn btn-outline-primary" onClick={handleSubmit}>Try again</button>
+        </div>
+    }
     return (
         <section className="order">
             <h2 className="text-center">Оформить заказ</h2>

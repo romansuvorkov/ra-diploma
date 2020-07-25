@@ -7,7 +7,8 @@ import About from "./components/About";
 import Contacts from "./components/Contacts";
 import Product from "./components/Product";
 import Cart from "./components/Cart";
-import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
+import PageDontExist from "./components/PageDontExist";
+import {BrowserRouter as Router, Route, Link, Switch, Redirect} from 'react-router-dom';
 import './App.css';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchSearch, setSearchText, clearItems} from './actions/actionCreators';
@@ -37,7 +38,7 @@ function App() {
 
                     <div className="collapase navbar-collapse" id="navbarMain">
                         <ul className="navbar-nav mr-auto">
-                            <li className="nav-item active">
+                            <li className="nav-item">
                                 <Link className="nav-link" to="/">Главная</Link>
                             </li>
                             <li className="nav-item">
@@ -101,10 +102,14 @@ function App() {
                         <Contacts />
                     </Route>
                     <Route path="/catalog/:id" component={Product} />
-                        {/* <Product /> */}
-                    {/* </Route> */}
                     <Route path="/cart">
                         <Cart />
+                    </Route>
+                    <Route exact path="/404">
+                        <PageDontExist />
+                    </Route>
+                    <Route path="*">
+                        <Redirect to="/404" />
                     </Route>
                 </Switch>
 

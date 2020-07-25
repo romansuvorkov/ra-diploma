@@ -36,8 +36,8 @@ function CategoryList() {
     <>
         <ul className="catalog-categories nav justify-content-center">
         {categories.map(o => (
-                        <li key={o.id}className="nav-item">
-                            <a className="nav-link active" href="#" onClick={(event) => {
+                        <li key={o.id} className="nav-item">
+                            <a className={o.id !== activeCategoryID ? "nav-link" : "nav-link active"} href="#" onClick={(event) => {
                                 event.preventDefault();
                                 if (o.id !== activeCategoryID) {
                                     dispatch(setActiveCategory(o.id))
