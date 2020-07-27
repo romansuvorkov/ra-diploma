@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchTopSales, fetchCatalogItem} from '../actions/actionCreators';
+import {fetchTopSales} from '../actions/actionCreators';
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 
 function TopSales() {
@@ -22,7 +22,16 @@ function TopSales() {
   }
 
   if (error) {
-      return <div>Something went wrong. Try again</div>
+      return  <div>
+                <p>
+                    Произошла ошибка во время загрузки хитов продаж. Повторите попытку
+                </p>
+                <button className="btn btn-outline-primary" onClick={(event) => {
+                    event.preventDefault();
+                    dispatch(fetchTopSales());
+                }}>Try again</button>
+            </div>
+      
   }
 
   return (
@@ -33,7 +42,7 @@ function TopSales() {
                     {topSales.map(o => (
                           <div key={o.id} className="col-4">
                               <div className="card catalog-item-card">
-                                  <img src={o.images[0]} className="card-img-top img-fluid" alt={o.title} />
+                                  <img src={o.images[0]} className="card-img-top img-fluid" alt={o.title} onError={(e) => {e.target.onerror = null; e.target.src = "https://www.ilmonte.ru/local/templates/ilmonte/img/no_photo.jpg"}} />
                                   <div className="card-body">
                                       <p className="card-text">{o.title}</p>
                                       <p className="card-text">{o.price}</p>

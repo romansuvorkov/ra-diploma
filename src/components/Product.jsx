@@ -59,7 +59,7 @@ const addToCart = () => {
                     <h2 className="text-center">{itemInfo.title}</h2>
                     <div className="row">
                         <div className="col-5">
-                            <img src={itemImages[0]} className="img-fluid" alt={itemInfo.title} onError={(e) => {e.target.onerror = null; e.target.src = itemImages[1]}} />
+                            <img src={itemImages[0]} className="img-fluid" alt={itemInfo.title} onError={(e) => {e.target.onerror = null; e.target.src = "https://www.ilmonte.ru/local/templates/ilmonte/img/no_photo.jpg"}} />
                         </div>
                         <div className="col-7">
                             <table className="table table-bordered">

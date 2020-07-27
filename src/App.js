@@ -53,14 +53,17 @@ function App() {
                         </ul>
                         <div>
                             <div className="header-controls-pics">
-                            <div data-id="search-expander" className="header-controls-pic header-controls-search" onClick={() => {
+                            <div data-id="search-expander" className="header-controls-pic header-controls-search" onClick={(event) => {
+                                event.preventDefault();
                                 if (searchFieldvalue === '') {
                                     searchWidgetVisability ? setSearchWidgetVisability(false) : setSearchWidgetVisability(true);
+                                } else {
+                                    dispatch(setSearchText(searchFieldvalue));
+                                    dispatch(fetchSearch(searchFieldvalue));
+                                    setsearchFieldvalue('');
+                                    dispatch(clearItems());                                    
                                 }
-                                dispatch(setSearchText(searchFieldvalue));
-                                dispatch(fetchSearch(searchFieldvalue));
-                                setsearchFieldvalue('');
-                                dispatch(clearItems());
+
                             }}></div>
                                 <div className="header-controls-pic header-controls-cart">
                                     {cart.length > 0 && <div className="header-controls-cart-full">{cart.length}</div>}
@@ -68,14 +71,20 @@ function App() {
                                     <Link className="cart_link" to="/cart"></Link>
                                 </div>
                             </div>
-                            {searchWidgetVisability && <form data-id="search-form" className="header-controls-search-form form-inline">
+                            <form data-id="search-form" className={searchWidgetVisability ? "header-controls-search-form form-inline" : "header-controls-search-form form-inline invisible"}
+                            onSubmit={(event) => {
+                                event.preventDefault();
+                                if (searchFieldvalue === '') {
+                                    searchWidgetVisability ? setSearchWidgetVisability(false) : setSearchWidgetVisability(true);
+                                } else {
+                                    dispatch(setSearchText(searchFieldvalue));
+                                    dispatch(fetchSearch(searchFieldvalue));
+                                    setsearchFieldvalue('');
+                                    dispatch(clearItems());                                    
+                                }
+                            }}>
                                     <input className="form-control" placeholder="Поиск" value={searchFieldvalue} onChange={handleChange}/>
                             </form>
-                            ||
-                            !searchWidgetVisability && <form data-id="search-form" className="header-controls-search-form form-inline invisible">
-                                    <input className="form-control" placeholder="Поиск" value={searchFieldvalue} onChange={handleChange}/>
-                            </form>
-                            }
                         </div>
                     </div>
                 </nav>

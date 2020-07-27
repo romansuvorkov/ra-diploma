@@ -6,7 +6,7 @@ function OrderForm() {
 
     const { cart } = useSelector(state => state.cart);
     const dispatch = useDispatch();
-    const { orderLoading, orderError } = useSelector(state => state.cart);
+    const { serverResponse, orderLoading, orderError } = useSelector(state => state.orderReducer);
 
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
@@ -53,6 +53,16 @@ function OrderForm() {
             <button className="btn btn-outline-primary" onClick={handleSubmit}>Try again</button>
         </div>
     }
+
+    if (serverResponse === 204) {
+        return <div>
+            <p>
+            Ваш заказ успешно принят. Спасибо за покупку.
+            </p>
+        </div>
+    }
+
+
     return (
         <section className="order">
             <h2 className="text-center">Оформить заказ</h2>

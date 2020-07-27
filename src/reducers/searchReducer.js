@@ -19,7 +19,7 @@ export default function searchReducer(state = initialState, action) {
     }
     case FETCH_SEARCH_SUCCESS: {
       const { searchResponse } = action.payload;
-      return { ...state, searchResponse: searchResponse};
+      return { ...state, searchResponse: searchResponse, searchLoading: false, searchError: null};
     }
     case SET_SEARCH_TEXT: {
       const { searchText } = action.payload;
