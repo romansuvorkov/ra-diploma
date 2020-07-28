@@ -12,10 +12,9 @@ function Catalog(props) {
     const { activeCategoryID } = useSelector(state => state.categoryList);
 
     React.useEffect(() => {
-        if(items.length === 0) {
+        if(items.length === 0 && !searchLoading) {
             dispatch(fetchItems('/items'));           
         }
-        // dispatch(fetchItems('/items'));
     }, [dispatch]);
 
     const handleClick = (event) => {
@@ -37,14 +36,6 @@ function Catalog(props) {
         dispatch(fetchItems(address));
     }
 
-    // if (error) {
-    //     return <div>
-    //                 <p>
-    //                     Произошла ошибка во время загрузки каталога. Повторите загрузку
-    //                 </p>
-    //                 <button className="btn btn-outline-primary" onClick={handleClick}>Try again</button>
-    //             </div>
-    // }
 
   return (
         <section className="catalog">

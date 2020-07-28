@@ -7,28 +7,28 @@ import About from "./components/About";
 import Contacts from "./components/Contacts";
 import Product from "./components/Product";
 import Cart from "./components/Cart";
+import Header from "./components/Header";
 import PageDontExist from "./components/PageDontExist";
 import {BrowserRouter as Router, Route, Link, Switch, Redirect} from 'react-router-dom';
 import './App.css';
-import {useSelector, useDispatch} from 'react-redux';
-import {fetchSearch, setSearchText, clearItems} from './actions/actionCreators';
+// import {useDispatch, useSelector} from 'react-redux';
+// import {fetchSearch, setSearchText, clearItems} from './actions/actionCreators';
 
 
 function App() {
-    const [searchFieldvalue, setsearchFieldvalue] = useState('');
-    const { cart } = useSelector(state => state.cart);
-    const [searchWidgetVisability, setSearchWidgetVisability] = useState(false);
-    const handleChange = (event) => {
-        const {value} = event.target;
-        setsearchFieldvalue(value);
-    };
-    
-    const dispatch = useDispatch();
+    // const [searchFieldvalue, setsearchFieldvalue] = useState('');
+    // const [searchWidgetVisability, setSearchWidgetVisability] = useState(false);
+    // const handleChange = (event) => {
+    //     const {value} = event.target;
+    //     setsearchFieldvalue(value);
+    // };
+    // const dispatch = useDispatch();
+    // const { cart } = useSelector(state => state.cart);
 
   return (
     <>
         <Router>
-        <header className="container">
+        {/* <header className="container">
         <div className="row">
             <div className="col">
                 <nav className="navbar navbar-expand-sm navbar-light bg-light">
@@ -52,7 +52,7 @@ function App() {
                             </li>
                         </ul>
                         <div>
-                            <div className="header-controls-pics">
+                        <div className="header-controls-pics">
                             <div data-id="search-expander" className="header-controls-pic header-controls-search" onClick={(event) => {
                                 event.preventDefault();
                                 if (searchFieldvalue === '') {
@@ -90,7 +90,8 @@ function App() {
                 </nav>
             </div>
         </div>
-        </header>
+        </header> */}
+        <Header />
 
     <main className="container">
         <div className="row">
